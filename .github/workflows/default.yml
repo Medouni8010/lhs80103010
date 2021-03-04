@@ -1,7 +1,7 @@
 #
-# https://github.com/P3TERX/IBM-CF-V2
+# https://github.com/CLOUD/IBM-CF-V2
 #
-# Copyright (c) 2020 P3TERX <https://p3terx.com>
+# Copyright (c) 2020 CLOUD <https://CLOUD.com>
 #
 # This is free software, licensed under the MIT License.
 # See /LICENSE for more information.
@@ -63,7 +63,7 @@ jobs:
     - name: Generate V2Ray Config File (VMess)
       if: ${{ env.V2_WS_PATH_VMESS }}
       run: |
-        base64 << P3TERX > config
+        base64 << CLOUD > config
         {
           "log": {
             "access": "none",
@@ -95,12 +95,12 @@ jobs:
             }
           ]
         }
-        P3TERX
+        CLOUD
 
     - name: Generate V2Ray Config File (VLESS)
       if: ${{ env.V2_WS_PATH_VLESS }}
       run: |
-        base64 << P3TERX > config
+        base64 << CLOUD > config
         {
           "log": {
             "access": "none",
@@ -132,19 +132,21 @@ jobs:
             }
           ]
         }
-        P3TERX
+        CLOUD
 
     - name: Generate Manifest File
       run: |
-        cat << P3TERX > manifest.yml
+        cat << CLOUD > manifest.yml
         applications:
         - name: ${IBM_CF_APP_NAME}
+          host: ${IBM_CF_APP_NAME}
           memory: ${IBM_CF_APP_MEM}
+          instances: 1
           random-route: true
           command: base64 -d config > config.json; ./${IBM_CF_APP_NAME} -config=config.json
           buildpacks:
           - binary_buildpack
-        P3TERX
+        CLOUD
 
     - name: Deploy Cloud Foundry App
       run: cf push
